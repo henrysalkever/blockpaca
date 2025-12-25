@@ -11,7 +11,8 @@ Alternatively, you can clone the repository in a new or existing environment.
 In terminal: 
 ```git clone https://github.com/henrysalkever/blockpaca.git``` 
 
-##Repo structure 
+## Repo structure 
+```
 blockpaca/
 ├── LICENSE
 ├── pyproject.toml
@@ -22,5 +23,6 @@ blockpaca/
         ├── core.py
         ├── live_display.py
         └── tools.py
+```
 
 
