@@ -37,7 +37,7 @@ SECRET_KEY = "custom_secret_key #secret key obtained from your Alpaca account
 TICKERS = ["AAPL", "TSLA", "NVDA"] #tickers to receive data for, up to 30 max for free accounts
 
 def custom_strategy(context):
-    quotes, positions = conext['get_current_data]()
+    quotes, positions = context['get_current_data]()
     #some custom trading logic
     return order_dict 
 
