@@ -48,16 +48,39 @@ if __name__ == "__main__":
         strategy_callable = custom_strategy,
         trade_log_name = "custom_strat_name",
         trade_log_path = log_dir,
-        frequency = 10, #run the strategy every 10 seconds
-        run_seconds = 60 #total seconds to run the trading loop for
-        eos_behavior = "hold", #end of loop behavior
-        warm_up_period = 10, #time to wait for quotes before starting the trading loop
-        live_display = True, #toggle on/off for terminal rich-based display of positions and trade status,
-        display_refresh_rate = 0.05, #time between each refresh of values in live display
-        max_trade_updates = 20, #controls how many trade updates are shown in the live display
+        frequency = 10, 
+        run_seconds = 60 
+        eos_behavior = "hold", 
+        warm_up_period = 10, 
+        live_display = True, 
+        display_refresh_rate = 0.05, 
+        max_trade_updates = 20, 
     )
 ```
 
+### Parameters 
+
+`strategy_callable` : custom trading logic 
+
+`trade_log_name` : name for trade log file (make this something identifiable to the strategy you are running) 
+
+`trade_log_path` : path for trade logs 
+
+`frequency` : frequency at which the trading logic executes. Accepts integers, floats as well as strings of types `"1m", "15m", "1h", "2h"` *
+
+`run_seconds` : total seconds to run the trading loop for. Accepts integers, floats, as well as strings of types `"1m", "15m", "1h", "2h"` * and `"EOD"` which will input the seconds until the market closes for the day minus 30 seconds.
+
+`eos_behavior` : dictates the behavior at the end of the trading session. Options are `"liquidate", "hold"` and `"custom"`. See the section on custom eos behavior for further details. 
+
+`warm_up_period` : time to wait for quotes before starting the trading loop (5 seconds recommended)
+
+`live_display` : Boolean value to toggle on/off for the rich terminal display of positions and trade status 
+
+`display_refresh_rate` : time between each refresh of values in live display 
+
+`max_trade_updates` : controls how many trade updastes are shown in the live display
+
+*(numbers are adjustable, though will throw an error if you input a value for hours that will make your trading session terminate after 30 seconds before the market closes, for example `"9h"`) 
 
     
 
