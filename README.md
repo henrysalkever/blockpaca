@@ -1,6 +1,8 @@
 # blockpaca
 Parallel execution system for Alpaca broker API 
 
+In-depth description of architecture [here](https://www.hsalkever.work/post/blockpaca-enabling-concurrent-trade-execution-for-the-alpaca-api)
+
 ## Installation 
 
 ```pip install blockpaca```
