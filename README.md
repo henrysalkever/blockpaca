@@ -5,7 +5,7 @@ Parallel execution system for Alpaca broker API
 
 ```pip install blockpaca```
 
-Pip installation requires python version >= 3.10 
+Pip installation requires Python version >= 3.10 
 
 Alternatively, you can clone the repository in a new or existing environment. 
 
@@ -28,16 +28,16 @@ blockpaca/
 
 ## Running blockpaca
 
-```python
+```Python
 from blockpaca import run_trading
 
 log_dir = "/Users/username/log_dir"
 API_KEY = "custom_api_key" #API key obtained from your Alpaca account
-SECRET_KEY = "custom_secret_key #secret key obtained from your Alpaca account
+SECRET_KEY = "custom_secret_key" #secret key obtained from your Alpaca account
 TICKERS = ["AAPL", "TSLA", "NVDA"] #tickers to receive data for, up to 30 max for free accounts
 
 def custom_strategy(context):
-    quotes, positions = context['get_current_data]()
+    quotes, positions = context['get_current_data']()
     #some custom trading logic
     return order_dict 
 
@@ -78,7 +78,7 @@ if __name__ == "__main__":
 
 `display_refresh_rate` : time between each refresh of values in live display 
 
-`max_trade_updates` : controls how many trade updastes are shown in the live display
+`max_trade_updates` : controls how many trade updates are shown in the live display
 
 *(numbers are adjustable, though will throw an error if you input a value for hours that will make your trading session terminate after 30 seconds before the market closes, for example `"9h"`) 
 
@@ -87,15 +87,15 @@ if __name__ == "__main__":
 
 Custom trading functions must be set up as follows: 
 
-```python
+```Python
 def custom_function(context):
     #trading logic
     return orders
 ```
 
-Your function must be set up to accept the context block as the only argument. The context block is a dictionary that is passed in that contains the methods for getting current quotes and positions, and submitting orders. The context block also contains the addresses for the shared memory, the result queue, and the command queue that are necessary for sharing information across python processes. 
+Your function must be set up to accept the context block as the only argument. The context block is a dictionary that is passed in that contains the methods for getting current quotes and positions, and submitting orders. The context block also contains the addresses for the shared memory, the result queue, and the command queue that are necessary for sharing information across Python processes. 
 
-```python
+```Python
 context = {
     "get_current_data": get_current_data, #callable
     "submit_order": submit order, #callable
@@ -109,12 +109,12 @@ context = {
 
 Within your trading function, run the following to get current quotes and positions: 
 
-```python
+```Python
 quotes, positions = context['get_current_data']()
 ```
 
 The schema for the quote data you recieve will be 
-```python
+```Python
 {
    "AAPL": {"bid": 150.25, "ask": 150.30},
    "MSFT": {"bid": 299.50, "ask": 299.75},
@@ -123,7 +123,7 @@ The schema for the quote data you recieve will be
 ```
 
 and the schema for position data received will be 
-```python
+```Python
 [
    {"ticker": "AAPL", "quantity": 10, "bought_at": 145.00, "cost_basis": 1450.00},
    {"ticker": "MSFT", "quantity": -5, "bought_at": 300.00, "cost_basis": -1500.00},
@@ -134,13 +134,13 @@ and the schema for position data received will be
 ### Persistent and Non-Persistent Data Between Trading Loops 
 
 If you would like to run strategies that depend on data collected over the course of the trading session (moving averages etc.), you should collect data in a structure outside of your custom trading function. For example, if you wanted to collect the quotes passed to the trading algorithm each time it was called, you would set up your code in the following way: 
-```python
+```Python
 
 quote_collection = []
 
 def trading_strat(context):
     quotes, positions = context['get_current_data']()
-    quote_collection.append(quote)
+    quote_collection.append(quotes)
 
     #trading logic...
 
@@ -172,7 +172,7 @@ Actions: `"buy_to_cover", "sell_long", "short_sell", "liquidate", "cover_short"`
 
 the schema for individual orders is 
 
-```python
+```Python
 {
     "ticker": str,         # e.g. "AAPL"
     "quantity": float,     # e.g. 10
@@ -184,7 +184,7 @@ the schema for individual orders is
 ```
 
 to submit a block of orders, simply combine them into a list 
-```python
+```Python
 orders = [
     {"ticker": "AAPL", "quantity": 10, "side": "buy", "order_type": "market"},
     {"ticker": "MSFT", "quantity": 5, "side": "buy", "order_type": "market"},
@@ -193,7 +193,7 @@ orders = [
 ```
 
 there are two options for submitting orders: 
-```python
+```Python
 #Option 1
 
 def trading_strat(context):
@@ -214,7 +214,7 @@ Both of these options are different ways to access the same execution function.
 ## Calling Protocol 
 
 It is important to call `run_trading` as follows 
-```python
+```Python
 #global variables for initialization
 
 def trading_function(context):
@@ -233,7 +233,7 @@ because `run_trading` spawns child processes, and calling run_trading outside th
 
 If you call `run_trading` with the `eos_behavior` parameter set to `"custom"`, you must also provide a callable function to the `custom_shutdown_action` parameter. For example: 
 
-```python
+```Python
 from blockpaca import run_trading
 
 log_dir = "/Users/username/log_dir"
