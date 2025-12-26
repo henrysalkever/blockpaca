@@ -50,6 +50,9 @@ if __name__ == "__main__":
         strategy_callable = custom_strategy,
         trade_log_name = "custom_strat_name",
         trade_log_path = log_dir,
+        api_key = API_KEY,
+        secret_key = SECRET_KEY,
+        tickers = TICKERS,
         frequency = 10, 
         run_seconds = 60 
         eos_behavior = "hold", 
@@ -67,6 +70,12 @@ if __name__ == "__main__":
 `trade_log_name` : name for trade log file (make this something identifiable to the strategy you are running) 
 
 `trade_log_path` : path for trade logs 
+
+`api_key` : your api key from Alpaca 
+
+`secret_key` : your secret key from Alpaca
+
+`tickers` : a list of the tickers you wish to receive quotes for (max 30 for free tier) 
 
 `frequency` : frequency at which the trading logic executes. Accepts integers, floats as well as strings of types `"1m", "15m", "1h", "2h"` *
 
@@ -259,6 +268,9 @@ if __name__ == "__main__":
         strategy_callable = custom_strategy,
         trade_log_name = "custom_strat_name",
         trade_log_path = log_dir,
+        api_key = API_KEY,
+        secret_key = SECRET_KEY,
+        tickers = TICKERS,
         frequency = 10, 
         run_seconds = 60 
         eos_behavior = "custom",
