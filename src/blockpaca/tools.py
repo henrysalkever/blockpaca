@@ -253,13 +253,10 @@ def buy_stocks(shared_data,lock,portfolio,order_list):
 
 def get_socket(): 
     in_hours = check_datetime()
-    print(in_hours)
     check_open = check_market_open()
     if check_open is True: 
         socket = 'wss://stream.data.alpaca.markets/v2/iex' 
-        print('open')
     else: 
-        print('not open')
         socket = 'wss://stream.data.alpaca.markets/v2/test' 
 
     return socket   

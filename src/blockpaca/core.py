@@ -9,7 +9,7 @@ from multiprocessing import shared_memory, Process, Queue, BoundedSemaphore, Eve
 import websocket
 import zmq
 from typing import Any 
-from tools import trade_update_to_csv 
+from .tools import trade_update_to_csv 
 import os 
 import uuid 
 
@@ -21,7 +21,7 @@ def get_trading_stream():
     return TradingStream
 
 
-from tools import get_socket, convert_run_duration_to_seconds
+from .tools import get_socket, convert_run_duration_to_seconds
 ALPACA_STREAM_URL = get_socket()
 
 ALPACA_REST_BASE = "https://paper-api.alpaca.markets/v2"
@@ -449,7 +449,7 @@ def trade_update_listener(result_queue, log_name, log_path, api_key: str, secret
                 "data": msg
             })
         
-        print("Trade update:", msg)
+        # print("Trade update:", msg)
         trade_update_to_csv(path, msg)
 
     stream.subscribe_trade_updates(on_update)
