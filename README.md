@@ -231,11 +231,62 @@ because `run_trading` spawns child processes, and calling run_trading outside th
 
 ## Custom EOS Behvaior  
 
+If you call `run_trading` with the `eos_behavior` parameter set to `"custom"`, you must also provide a callable function to the `custom_shutdown_action` parameter. For example: 
+
+```python
+from blockpaca import run_trading
+
+log_dir = "/Users/username/log_dir"
+API_KEY = "custom_api_key" #API key obtained from your Alpaca account
+SECRET_KEY = "custom_secret_key #secret key obtained from your Alpaca account
+TICKERS = ["AAPL", "TSLA", "NVDA"] #tickers to receive data for, up to 30 max for free accounts
+
+def custom_strategy(context):
+    quotes, positions = context['get_current_data]()
+    #some custom trading logic
+    return order_dict
+
+def shutdown_strategy(context):
+    #custom shutdown logic
+    return order_dict 
+
+if __name__ == "__main__": 
 
 
+    run_trading(
+        strategy_callable = custom_strategy,
+        trade_log_name = "custom_strat_name",
+        trade_log_path = log_dir,
+        frequency = 10, 
+        run_seconds = 60 
+        eos_behavior = "custom",
+        custom_shutdown_action = shutdown_strategy, 
+        warm_up_period = 10, 
+        live_display = True, 
+        display_refresh_rate = 0.05, 
+        max_trade_updates = 20, 
+    )
+```
+
+## Rate Limiting and Retry Logic 
+
+Free tier customers of Alpaca are limited to 200 order submissions per minute. This system automatically handles overflow of orders per minute, and the orders will wait in the order they arrived until the rate replenishes. Future versions will include automatic toggle of this rate limit to a higher value for paying-tier Alpaca users, but for now if you have the paid tier you will need to go in and change the max trades per minute manually. 
+
+Additionally retry logic includes exponential backoff. For example if a POST request to Alpaca fails, the backoff time between retries will double after every fail, up to a maximum of three attempts. If you wish to allow more retries, it can be changed manually in the code (but not from the pip-installed package). 
 
 
+## Trade Logs 
 
+Every order processed in a given trading session will be saved to `"/Users/username/log_dir/trade_log_name.csv"`. These order updates come from the Alpaca trade update stream, and will include timestamps for pending_new, new, and filled for each order. The `client_order_id` field will also list the action as well as the execution worker that submitted the order. Trade logs will be saved as follows: 
+
+```csv
+type,client_order_id,ticker,executed_price,executed_qty,status,side,action,timestamp,raw_status
+execution,buy_long-7-2304b6b1,DIA,0.0,0.0,pending_new,buy,buy_long,1766515599.059126,OrderStatus.PENDING_NEW
+execution,buy_long-7-2304b6b1,DIA,0.0,0.0,new,buy,buy_long,1766515599.067043,OrderStatus.NEW
+execution,buy_long-7-2304b6b1,DIA,484.74,1.0,filled,buy,buy_long,1766515599.236655,OrderStatus.FILLED
+```
+
+In this case, execution worker 7 submitted this order. 
 
 
 
