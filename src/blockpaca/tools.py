@@ -232,7 +232,7 @@ def buy_stocks(shared_data,lock,portfolio,order_list):
         order_list = order_list[:max_processes]
         print('### MORE PROCESSORS THAN AVAILABLE REQUESTED ###')
         print(f"### NOT EXECUTING {[order['ticker'] for order in order_list[max_processes:]]}")
-        print(f'### EXECUTING {[order['ticker'] for order in order_list[:max_processes]]}')
+        print(f"### EXECUTING {[order['ticker'] for order in order_list[:max_processes]]}")
     for order in order_list: 
         if order['side'] == 'buy':
             process = Process(target=partial(portfolio.buy_stock,order['ticker'],order['type'],order['quantity'],shared_data,lock))
