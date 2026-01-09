@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "blockpaca"
-version = "0.1.0"
+version = "0.1.2"
 description = "Parallel order execution for Alpaca"
 readme = "README.md"
 license = {text = "MIT"}
@@ -17,6 +17,7 @@ dependencies = [
     "pyzmq>=25.0.0",
     "rich>=13.9.0",
     "alpaca-py>=0.10.0",
+    "pandas-market-calendars>=4.0.0",
 ]
 
 [project.urls]
