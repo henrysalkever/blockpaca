@@ -54,7 +54,7 @@ if __name__ == "__main__":
         secret_key = SECRET_KEY,
         tickers = TICKERS,
         frequency = 10, 
-        run_seconds = 60 
+        run_seconds = 60,
         eos_behavior = "hold", 
         warm_up_period = 10, 
         live_display = True, 
